@@ -1,0 +1,27 @@
+<!-- browser-test.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browser SDK Test</title>
+</head>
+<body>
+  <script type="module">
+    import { RedPacketSDK } from '../dist/browser/with-external/index.js';
+
+    if (!RedPacketSDK) {
+      throw new Error('❌ RedPacketSDK is not defined');
+    }
+
+    if (typeof RedPacketSDK !== 'function') {
+      throw new Error(`❌ RedPacketSDK is not a function, got: ${typeof RedPacketSDK}`);
+    }
+
+    if (RedPacketSDK.name !== 'RedPacketSDK') {
+      throw new Error(`❌ Unexpected class name: ${RedPacketSDK.name}`);
+    }
+
+    console.log('Passed browser checks');
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
-  "name": "solana-redpacket",
-  "version": "1.0.1",
+  "name": "solana-redpacket-sdk",
+  "version": "1.0.0",
   "description": "A simple SDK for interacting with solana redpacket contract",
   "type": "module",
   "module": "./dist/esm/index.mjs",

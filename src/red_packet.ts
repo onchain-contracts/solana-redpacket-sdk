@@ -27,7 +27,7 @@ export class RedPacketSDK {
         id: PublicKey,
         creator: Keypair,
         mint: PublicKey,
-        maxRecipients,
+        maxClaims,
         totalAmount?: bigint,
         fixedAmount?: bigint,
         memo?: string,
@@ -43,7 +43,7 @@ export class RedPacketSDK {
             id,
             creator.publicKey,
             mint,
-            maxRecipients,
+            maxClaims,
             globalAccount.feeRecipient,
             totalAmount,
             fixedAmount,
@@ -67,7 +67,7 @@ export class RedPacketSDK {
         id: PublicKey,
         creator: PublicKey,
         mint: PublicKey,
-        maxRecipients: number,
+        maxClaims: number,
         feeRecipient: PublicKey,
         totalAmount?: bigint,
         fixedAmount?: bigint,
@@ -81,7 +81,7 @@ export class RedPacketSDK {
                     id,
                     totalAmount: totalAmount ? new BN(totalAmount.toString()) : null,
                     fixedAmount: fixedAmount ? new BN(fixedAmount.toString()) : null,
-                    maxRecipients: maxRecipients,
+                    maxClaims: maxClaims,
                     memo: memo ?? null,
                     password: password ?? null,
                     claimAuthority: claimAuthority ?? null,
@@ -102,7 +102,7 @@ export class RedPacketSDK {
                     id,
                     totalAmount: totalAmount ? new BN(totalAmount.toString()) : null, 
                     fixedAmount: fixedAmount ? new BN(fixedAmount.toString()) : null,
-                    maxRecipients: maxRecipients,
+                    maxClaims: maxClaims,
                     memo: memo ?? null,
                     password: password ?? null,
                     claimAuthority: claimAuthority ?? null,
@@ -120,7 +120,7 @@ export class RedPacketSDK {
 
     async claim(
         id: PublicKey, 
-        recipient: Keypair,
+        claimer: Keypair,
         password?: string,
         claimAuthority?: Keypair, 
         priorityFees?: PriorityFee,
@@ -129,13 +129,13 @@ export class RedPacketSDK {
     ) {
         const instructions = await this.getClaimInstructions(
             id,
-            recipient.publicKey,
+            claimer.publicKey,
             password,
             claimAuthority?.publicKey,
             commitment,
         );
 
-        const signers = [recipient];
+        const signers = [claimer];
         if (!!claimAuthority) {
             signers.push(claimAuthority);
         }
@@ -144,7 +144,7 @@ export class RedPacketSDK {
         return await sendTx(
             this.connection,
             instructions,
-            recipient.publicKey,
+            claimer.publicKey,
             signers,
             priorityFees,
             commitment,
@@ -154,7 +154,7 @@ export class RedPacketSDK {
 
     async getClaimInstructions(
         id: PublicKey,
-        recipient: PublicKey,
+        claimer: PublicKey,
         password?: string,
         claimAuthority?: PublicKey,
         commitment: Commitment = DEFAULT_COMMITMENT,
@@ -166,7 +166,7 @@ export class RedPacketSDK {
 
         const instructions: TransactionInstruction[] = [];
 
-        const associatedUser = await getAssociatedTokenAddress(redPacket.mint, recipient, false);
+        const associatedUser = await getAssociatedTokenAddress(redPacket.mint, claimer, false);
       
         try {
             await getAccount(this.connection, associatedUser, commitment);
@@ -174,9 +174,9 @@ export class RedPacketSDK {
             // console.log('catch createAssociatedTokenAccountInstruction: ', e);
             instructions.push(
                 createAssociatedTokenAccountInstruction(
-                    recipient,
+                    claimer,
                     associatedUser,
-                    recipient,
+                    claimer,
                     redPacket.mint,
                 )
             );
@@ -187,7 +187,7 @@ export class RedPacketSDK {
                 id,
                 password: password ?? null,
              }).accounts({
-                recipient,
+                claimer,
                 mint: redPacket.mint,
                 // @ts-ignore
                 claimAuthority: claimAuthority ?? null,

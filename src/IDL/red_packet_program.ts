@@ -30,7 +30,7 @@ export type RedPacketProgram = {
       ],
       "accounts": [
         {
-          "name": "recipient",
+          "name": "claimer",
           "writable": true,
           "signer": true
         },
@@ -90,7 +90,7 @@ export type RedPacketProgram = {
               },
               {
                 "kind": "account",
-                "path": "recipient"
+                "path": "claimer"
               }
             ]
           }
@@ -128,13 +128,13 @@ export type RedPacketProgram = {
           "optional": true
         },
         {
-          "name": "recipientTokenAccount",
+          "name": "claimerTokenAccount",
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "account",
-                "path": "recipient"
+                "path": "claimer"
               },
               {
                 "kind": "const",
@@ -1164,8 +1164,8 @@ export type RedPacketProgram = {
     },
     {
       "code": 6009,
-      "name": "invalidMaxRecipients",
-      "msg": "Invalid max recipients."
+      "name": "invalidMaxClaims",
+      "msg": "Invalid max claims."
     },
     {
       "code": 6010,
@@ -1219,13 +1219,13 @@ export type RedPacketProgram = {
     },
     {
       "code": 6020,
-      "name": "invalidMinAmountPerRecipient",
-      "msg": "Invalid min amount per recipient."
+      "name": "invalidMinAmountPerClaim",
+      "msg": "Invalid min amount per claim."
     },
     {
       "code": 6021,
-      "name": "invalidMaxTotalAmount",
-      "msg": "Invalid max total amount."
+      "name": "arithmeticOverflow",
+      "msg": "Arithmetic overflow."
     }
   ],
   "types": [
@@ -1263,7 +1263,7 @@ export type RedPacketProgram = {
             "type": "u64"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1305,7 +1305,7 @@ export type RedPacketProgram = {
             "type": "pubkey"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1333,7 +1333,7 @@ export type RedPacketProgram = {
             "type": "pubkey"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1383,7 +1383,7 @@ export type RedPacketProgram = {
             "type": "string"
           },
           {
-            "name": "maxRecipients",
+            "name": "maxClaims",
             "type": "u32"
           },
           {
@@ -1413,7 +1413,7 @@ export type RedPacketProgram = {
             }
           },
           {
-            "name": "maxRecipients",
+            "name": "maxClaims",
             "type": "u32"
           },
           {
@@ -1469,11 +1469,11 @@ export type RedPacketProgram = {
             "type": "u64"
           },
           {
-            "name": "initialMaxRecipients",
+            "name": "initialMaxClaims",
             "type": "u32"
           },
           {
-            "name": "initialMinAmountPerRecipient",
+            "name": "initialMinAmountPerClaim",
             "type": "u64"
           },
           {
@@ -1497,7 +1497,7 @@ export type RedPacketProgram = {
             "type": "pubkey"
           },
           {
-            "name": "maxRecipients",
+            "name": "maxClaims",
             "type": "u32"
           },
           {
@@ -1525,7 +1525,7 @@ export type RedPacketProgram = {
             "type": "bool"
           },
           {
-            "name": "minAmountPerRecipient",
+            "name": "minAmountPerClaim",
             "type": "u64"
           },
           {
@@ -1582,11 +1582,11 @@ export type RedPacketProgram = {
             "type": "u64"
           },
           {
-            "name": "initialMaxRecipients",
+            "name": "initialMaxClaims",
             "type": "u32"
           },
           {
-            "name": "initialMinAmountPerRecipient",
+            "name": "initialMinAmountPerClaim",
             "type": "u64"
           },
           {
@@ -1624,13 +1624,13 @@ export type RedPacketProgram = {
             }
           },
           {
-            "name": "initialMaxRecipients",
+            "name": "initialMaxClaims",
             "type": {
               "option": "u32"
             }
           },
           {
-            "name": "initialMinAmountPerRecipient",
+            "name": "initialMinAmountPerClaim",
             "type": {
               "option": "u64"
             }
@@ -1694,7 +1694,7 @@ export type RedPacketProgram = {
             "type": "u64"
           },
           {
-            "name": "maxRecipients",
+            "name": "maxClaims",
             "type": "u32"
           },
           {

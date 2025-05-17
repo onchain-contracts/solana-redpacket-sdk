@@ -171,7 +171,7 @@ async create(
   id: PublicKey,
   creator: Keypair,
   mint: Keypair,
-  maxRecipients: number,
+  maxClaims: number,
   totalAmount?: bigint,
   fixedAmount?: bigint,
   claimAuthority?: PublicKey,
@@ -187,7 +187,7 @@ async create(
   - `id`: id.
   - `creator`: The keypair of the token creator.
   - `mint`: The keypair of the mint account.
-  - `maxRecipients`: Max recipients (optional).
+  - `maxClaims`: Max claims (optional).
   - `totalAmount`: Total amount (optional).
   - `fixedAmount`: Fixed amount (optional).
   - `claimAuthority`: Claim Authority (optional).
@@ -202,7 +202,7 @@ async create(
 ```typescript
 async claim(
   id: PublicKey,
-  recipient: Keypair,
+  claimer: Keypair,
   claimAuthority?: Keypair,
   password?: string,
   priorityFees?: PriorityFee,
@@ -214,7 +214,7 @@ async claim(
 - claim a specified redpacket.
 - **Parameters**:
   - `id`: The id of the redpacket.
-  - `recipient`: The keypair of the recipient.
+  - `claimer`: The keypair of the claimer.
   - `claimAuthority`: Claim Authority (optional).
   - `password`: Password (optional).
   - `priorityFees`: Priority fees (optional).

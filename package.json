@@ -1,5 +1,5 @@
 {
-  "name": "solana-redpacket-sdk",
+  "name": "@onchain-contracts/solana-redpacket-sdk",
   "version": "1.0.0",
   "description": "A simple SDK for interacting with solana redpacket contract",
   "type": "module",

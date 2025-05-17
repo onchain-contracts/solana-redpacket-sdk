@@ -20,7 +20,7 @@ export type CreateEvent = {
   id: PublicKey;
   redPacket: PublicKey;
   mint: PublicKey;
-  maxRecipients: number;
+  maxClaims: number;
   totalAmount: bigint;
   memo: string;
   creator: PublicKey;
@@ -31,7 +31,7 @@ export type CreateEvent = {
 export type CompleteEvent = {
   id: PublicKey;
   redPacket: PublicKey;
-  recipient: PublicKey;
+  claimer: PublicKey;
   mint: PublicKey;
   timestamp: number;
 };
@@ -41,7 +41,7 @@ export type ClaimEvent = {
   redPacket: PublicKey;
   mint: PublicKey;
   amount: bigint;
-  recipient: PublicKey;
+  claimer: PublicKey;
   totalAmount: bigint;
   timestamp: number;
 };
@@ -58,7 +58,7 @@ export type SetGlobalCfgEvent = {
   feeRecipient: PublicKey;
   createFee: bigint;  
   initialMaxTotalAmount: bigint;
-  initialMaxRecipients: number;
-  initialMinAmountPerRecipient: bigint;
+  initialMaxClaims: number;
+  initialMinAmountPerClaim: bigint;
   timestamp: number;
 };

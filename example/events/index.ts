@@ -29,10 +29,10 @@ const main = async () => {
   });
   console.log("createEvent", createEvent);
 
-  const tradeEvent = sdk.addEventListener("tradeEvent", (event) => {
-    console.log("tradeEvent", event);
+  const claimEvent = sdk.addEventListener("claimEvent", (event) => {
+    console.log("claimEvent", event);
   });
-  console.log("tradeEvent", tradeEvent);
+  console.log("claimEvent", claimEvent);
 
   const completeEvent = sdk.addEventListener("completeEvent", (event) => {
     console.log("completeEvent", event);

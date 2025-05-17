@@ -24,7 +24,7 @@
       ],
       "accounts": [
         {
-          "name": "recipient",
+          "name": "claimer",
           "writable": true,
           "signer": true
         },
@@ -84,7 +84,7 @@
               },
               {
                 "kind": "account",
-                "path": "recipient"
+                "path": "claimer"
               }
             ]
           }
@@ -122,13 +122,13 @@
           "optional": true
         },
         {
-          "name": "recipient_token_account",
+          "name": "claimer_token_account",
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "account",
-                "path": "recipient"
+                "path": "claimer"
               },
               {
                 "kind": "const",
@@ -1158,8 +1158,8 @@
     },
     {
       "code": 6009,
-      "name": "InvalidMaxRecipients",
-      "msg": "Invalid max recipients."
+      "name": "InvalidMaxClaims",
+      "msg": "Invalid max claims."
     },
     {
       "code": 6010,
@@ -1213,13 +1213,13 @@
     },
     {
       "code": 6020,
-      "name": "InvalidMinAmountPerRecipient",
-      "msg": "Invalid min amount per recipient."
+      "name": "InvalidMinAmountPerClaim",
+      "msg": "Invalid min amount per claim."
     },
     {
       "code": 6021,
-      "name": "InvalidMaxTotalAmount",
-      "msg": "Invalid max total amount."
+      "name": "ArithmeticOverflow",
+      "msg": "Arithmetic overflow."
     }
   ],
   "types": [
@@ -1257,7 +1257,7 @@
             "type": "u64"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1299,7 +1299,7 @@
             "type": "pubkey"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1327,7 +1327,7 @@
             "type": "pubkey"
           },
           {
-            "name": "recipient",
+            "name": "claimer",
             "type": "pubkey"
           },
           {
@@ -1377,7 +1377,7 @@
             "type": "string"
           },
           {
-            "name": "max_recipients",
+            "name": "max_claims",
             "type": "u32"
           },
           {
@@ -1407,7 +1407,7 @@
             }
           },
           {
-            "name": "max_recipients",
+            "name": "max_claims",
             "type": "u32"
           },
           {
@@ -1463,11 +1463,11 @@
             "type": "u64"
           },
           {
-            "name": "initial_max_recipients",
+            "name": "initial_max_claims",
             "type": "u32"
           },
           {
-            "name": "initial_min_amount_per_recipient",
+            "name": "initial_min_amount_per_claim",
             "type": "u64"
           },
           {
@@ -1491,7 +1491,7 @@
             "type": "pubkey"
           },
           {
-            "name": "max_recipients",
+            "name": "max_claims",
             "type": "u32"
           },
           {
@@ -1519,7 +1519,7 @@
             "type": "bool"
           },
           {
-            "name": "min_amount_per_recipient",
+            "name": "min_amount_per_claim",
             "type": "u64"
           },
           {
@@ -1576,11 +1576,11 @@
             "type": "u64"
           },
           {
-            "name": "initial_max_recipients",
+            "name": "initial_max_claims",
             "type": "u32"
           },
           {
-            "name": "initial_min_amount_per_recipient",
+            "name": "initial_min_amount_per_claim",
             "type": "u64"
           },
           {
@@ -1618,13 +1618,13 @@
             }
           },
           {
-            "name": "initial_max_recipients",
+            "name": "initial_max_claims",
             "type": {
               "option": "u32"
             }
           },
           {
-            "name": "initial_min_amount_per_recipient",
+            "name": "initial_min_amount_per_claim",
             "type": {
               "option": "u64"
             }
@@ -1688,7 +1688,7 @@
             "type": "u64"
           },
           {
-            "name": "max_recipients",
+            "name": "max_claims",
             "type": "u32"
           },
           {

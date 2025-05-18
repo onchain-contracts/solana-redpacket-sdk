@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { Connection, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { RedPacketSDK } from "../../src/index.js";
 import { AnchorProvider, Wallet } from "@coral-xyz/anchor";
 import {
@@ -40,7 +40,9 @@ const main = async () => {
 
   const testAccount = getOrCreateKeypair(KEYS_FOLDER, "id");
   const mint = NATIVE_MINT;
+  const splMint = new PublicKey('4h4oUsAsC1uhf7Q1pVftXj9oCRTTKmEvsYuKWtNtTGv1');
   const id = Keypair.generate().publicKey;
+  const splId = Keypair.generate().publicKey;
 
   await printSOLBalance(
     connection,
@@ -64,13 +66,14 @@ const main = async () => {
 
   console.log(await sdk.getGlobalAccount());
 
-  
+
+  /*
   const createResults = await sdk.create(
     id,
     testAccount,
     mint,
     3,
-    BigInt(0.001 * LAMPORTS_PER_SOL),
+    7n, // BigInt(0.001 * LAMPORTS_PER_SOL),
     undefined,
     'test packet',
     undefined,
@@ -85,12 +88,7 @@ const main = async () => {
     console.log("Success:", `https://redpacket.io/${id.toBase58()}`);
     const redPacketAccount = await sdk.getRedPacketAccount(id);
     console.log("RedPacket after create", redPacketAccount);
-
-    if (mint == NATIVE_MINT) {
-      printSOLBalance(connection, testAccount.publicKey);
-    } else {
-      printSPLBalance(connection, mint, testAccount.publicKey);
-    }
+    printSOLBalance(connection, testAccount.publicKey);
   } else {
     throw new Error('create failed');
   }
@@ -108,24 +106,59 @@ const main = async () => {
   );
 
   if (claimResults.success) {
-    if (mint == NATIVE_MINT) {
-      printSOLBalance(connection, testAccount.publicKey);
-    } else {
-      printSPLBalance(connection, mint, testAccount.publicKey);
-    }
-    
+    printSOLBalance(connection, testAccount.publicKey);
     console.log("Red packet after claim", await sdk.getRedPacketAccount(id));
   } else {
     console.log("claim failed");
   }
+  */
 
-  //sell all tokens
-  const currentSPLBalance = await getSPLBalance(
-    connection,
-    mint,
-    testAccount.publicKey
+
+  // spl redpacket
+
+  const splCreateResults = await sdk.create(
+    splId,
+    testAccount,
+    splMint,
+    3,
+    7n, // BigInt(0.001 * LAMPORTS_PER_SOL),
+    undefined,
+    'test spl packet',
+    undefined,
+    undefined,
+    {
+      unitLimit: 250000,
+      unitPrice: 250000,
+    },
   );
-  console.log("currentSPLBalance", currentSPLBalance);
+
+  if (splCreateResults.success) {
+    console.log("Success:", `https://redpacket.io/${splId.toBase58()}`);
+    const redPacketAccount = await sdk.getRedPacketAccount(splId);
+    console.log("RedPacket after create", redPacketAccount);
+    printSOLBalance(connection, testAccount.publicKey);
+  } else {
+    throw new Error('spl create failed');
+  }
+
+  // spl claim
+  const splClaimResults = await sdk.claim(
+    splId,
+    testAccount,
+    undefined,
+    undefined,
+    {
+      unitLimit: 250000,
+      unitPrice: 250000,
+    },
+  );
+
+  if (splClaimResults.success) {
+    printSPLBalance(connection, splMint, testAccount.publicKey);
+    console.log("(SPL) Red packet after claim", await sdk.getRedPacketAccount(splId));
+  } else {
+    console.log("spl claim failed");
+  }
 };
 
 main();

@@ -160,42 +160,58 @@ export class RedPacketSDK {
         commitment: Commitment = DEFAULT_COMMITMENT,
     ) {
         const redPacket = await this.getRedPacketAccount(id, commitment);
-        if (!redPacket) {
-            throw new Error("Red packet not found");
-        }
 
-        const instructions: TransactionInstruction[] = [];
+        if (redPacket.mint.equals(NATIVE_MINT)) {
+            return [
+                await this.program.methods.claim({
+                    id,
+                    password: password ?? null,
+                 }).accounts({
+                    claimer,
+                    mint: redPacket.mint,
+                    // @ts-ignore
+                    claimAuthority: claimAuthority ?? null,
+                    claimerTokenAccount: null,
+                    redPacketTokenAccount: null,
+                }).instruction(),
+            ];
+        } else {
+            const redPacketTokenAccount = await getAssociatedTokenAddress(redPacket.mint, this.getRedPacketPDA(id), true);
 
-        const associatedUser = await getAssociatedTokenAddress(redPacket.mint, claimer, false);
-      
-        try {
-            await getAccount(this.connection, associatedUser, commitment);
-        } catch (e) {
-            // console.log('catch createAssociatedTokenAccountInstruction: ', e);
+            const instructions: TransactionInstruction[] = [];
+
+            const claimerTokenAccount = await getAssociatedTokenAddress(redPacket.mint, claimer, false);
+        
+            try {
+                await getAccount(this.connection, claimerTokenAccount, commitment);
+            } catch (e) {
+                // console.log('catch createAssociatedTokenAccountInstruction: ', e);
+                instructions.push(
+                    createAssociatedTokenAccountInstruction(
+                        claimer,
+                        claimerTokenAccount,
+                        claimer,
+                        redPacket.mint,
+                    )
+                );
+            }
+
             instructions.push(
-                createAssociatedTokenAccountInstruction(
+                await this.program.methods.claim({
+                    id,
+                    password: password ?? null,
+                 }).accounts({
                     claimer,
-                    associatedUser,
-                    claimer,
-                    redPacket.mint,
-                )
+                    mint: redPacket.mint,
+                    // @ts-ignore
+                    claimAuthority: claimAuthority ?? null,
+                    claimerTokenAccount,
+                    redPacketTokenAccount,
+                }).instruction(),
             );
+    
+            return instructions;
         }
-
-        instructions.push(
-            await this.program.methods.claim({
-                id,
-                password: password ?? null,
-             }).accounts({
-                claimer,
-                mint: redPacket.mint,
-                // @ts-ignore
-                claimAuthority: claimAuthority ?? null,
-                redPacketTokenAccount: redPacket.mint.equals(NATIVE_MINT) ? null : associatedUser,
-            }).instruction(),
-        );
-
-        return instructions;
     }
 
     async setRedPacket(

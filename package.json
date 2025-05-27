@@ -1,6 +1,6 @@
 {
   "name": "@onchain-contracts/solana-redpacket-sdk",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A simple SDK for interacting with solana redpacket contract",
   "type": "module",
   "module": "./dist/esm/index.mjs",

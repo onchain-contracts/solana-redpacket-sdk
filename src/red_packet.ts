@@ -87,6 +87,7 @@ export class RedPacketSDK {
                     claimAuthority: claimAuthority ?? null,
                 })
                 .accounts({
+                    program: this.program.programId,
                     creator,
                     feeRecipient,
                     mint,
@@ -108,6 +109,7 @@ export class RedPacketSDK {
                     claimAuthority: claimAuthority ?? null,
                 })
                 .accounts({
+                    program: this.program.programId,
                     mint,
                     creator,
                     feeRecipient,
@@ -308,6 +310,7 @@ export class RedPacketSDK {
                 id,
             })
             .accounts({
+                program: this.program.programId,
                 user,
                 mint,
                 creator,
